@@ -1,0 +1,27 @@
+---
+title: "Analayzing *Political Deepfakes* (@barari2025political)"
+author: "Zoe Meers"
+date: today
+date-format: "MMMM D, YYYY"
+format: 
+  pdf:
+    geometry:
+      - top=1in
+      - bottom=1in
+      - left=0.8in
+      - right=0.8in
+execute:
+  echo: true
+  eval: true
+  warning: false
+  message: false
+bibliography: political_deepfakes.bib
+---
+
+
+```{r}
+load("original_paper/deepfake.RData")
+
+dat_clean = dat |> 
+    filter(quality != 'failed >=1 quality screen')
+``

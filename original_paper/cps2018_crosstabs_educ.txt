@@ -1,0 +1,9 @@
+Less than 9th grade|9,110,584
+9th-12th grade, no diploma|18,060,917
+High school diploma or equivalent|71,144,900
+Some college, no Assoc. or 4-yr degree|45,886,084
+Associate degree|23,975,870
+Bachelor's degree|51,229,082
+Master's degree|21,169,680
+Professional degree (such as DDS or JD)|3,193,821
+Doctorate (such as PhD or EdD)|4,467,431
