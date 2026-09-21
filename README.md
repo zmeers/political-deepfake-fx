@@ -1,5 +1,10 @@
 # Political Deepfakes are as Credible as Other Fake Media and (Sometimes) Real Media
-## Replication Code
+
+This is the replication folder for POL571 at Princeton University. 
+
+My replication of Barari, et al.'s work can be found in the replication and analysis subdirs. 
+
+## Replication Code - Available in `original_paper` subdir
 ### Authors: Soubhik Barari, Christopher Lucas, and Kevin Munger
 
 This is the replication code repository for the entitled research article (conditionally accepted at *The Journal of Politics*) which can be found [here](https://osf.io/cdfh3/).
