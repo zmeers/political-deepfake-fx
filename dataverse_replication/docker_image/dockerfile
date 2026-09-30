@@ -1,0 +1,39 @@
+# set base image
+FROM rocker/tidyverse:4.1
+
+RUN apt-get update
+RUN apt-get -y install cmake protobuf-compiler
+RUN R -e "install.packages(c('optparse', 'caret', 'survey', 'stargazer', 'weights', 'latex2exp', 'ggsignif', 'cowplot', 'equivalence', 'lmtest', 'sandwich'), repos = 'http://cran.us.r-project.org')"
+
+RUN mkdir /home/archive/
+RUN mkdir /home/archive/figures
+RUN mkdir /home/archive/figures_exploratory
+RUN mkdir /home/archive/intermediate
+RUN mkdir /home/archive/results
+
+WORKDIR /home/archive/
+
+## Copy scripts
+# COPY 00-deepfake_make_data.R /home/archive/00-deepfake_make_data.R # Not run due to PII
+COPY 01-weight_data.R /home/archive/01-weight_data.R
+COPY 02-prereg_analyses.R /home/archive/02-prereg_analyses.R
+COPY 02.1-prereg_sensitivity.R /home/archive/02.1-prereg_sensitivity.R
+COPY 02.2-prereg_power.R /home/archive/02.2-prereg_power.R
+COPY 02.3-prereg_bounds.R /home/archive/02.3-prereg_bounds.R
+COPY 03-paper_toplines.R /home/archive/03-paper_toplines.R
+COPY 04-supplementary_analyses.R /home/archive/04-supplementary_analyses.R
+
+## Copy data
+## COPY raw_data_from_experiment /home/archive/raw_data_from_experiment # Not run due to PII
+COPY supplemental_data /home/archive/supplemental_data
+COPY intermediate /home/archive/intermediate
+
+## Run
+# RUN Rscript 00-deepfake_make_data.R # Not run due to PII
+RUN Rscript 01-weight_data.R
+RUN Rscript 02-prereg_analyses.R
+# RUN Rscript 02.1-prereg_sensitivity.R # Not run due to PII
+RUN Rscript 02.2-prereg_power.R
+RUN Rscript 02.3-prereg_bounds.R
+RUN Rscript 03-paper_toplines.R
+RUN Rscript 04-supplementary_analyses.R

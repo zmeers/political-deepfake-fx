@@ -3,9 +3,6 @@
 # 
 # Author: Soubhik Barari
 # 
-# Environment:
-# - must use R 3.6
-# 
 # Runtime: <1 min
 # 
 # Input:
@@ -21,16 +18,13 @@
 ##### Pre-amble ####
 #####------------------------------------------------------#
 
-rm(list=ls())
-
 library(optparse)
 library(tidyverse)
 library(ggplot2)
 library(broom)
 library(stargazer)
 
-#setwd("~/Research_Group Dropbox/Soubhik Barari/Projects/repos/deepfakes_project")
-load("deepfake.Rdata")
+load("intermediate/deepfake.RData")
 
 select <- dplyr::select
 
@@ -104,10 +98,10 @@ coefviz <- function(df, ylab_="y", title_="") {
         theme_linedraw2 + geom_hline(yintercept=0, lty=2, alpha=0.5) + 
         theme(
             legend.position = "none",
-            axis.text.x = element_text(linewidth=14),
-            axis.text.y = element_text(linewidth=14),
-            axis.title.x = element_text(linewidth=14),
-            axis.title.y = element_text(linewidth=14)
+            axis.text.x = element_text(size=14),
+            axis.text.y = element_text(size=14),
+            axis.title.x = element_text(size=14),
+            axis.title.y = element_text(size=14)
         ) + ggtitle(title_)
 }
 
@@ -139,10 +133,10 @@ groupcoefviz <- function(df, ylab_="y", title_="", nudge=0.05) {
         theme_linedraw2 + geom_hline(yintercept=0, lty=2, alpha=0.5) + 
         theme(
             legend.position = "none",
-            axis.text.x = element_text(linewidth=14),
-            axis.text.y = element_text(linewidth=14),
-            axis.title.x = element_text(linewidth=14),
-            axis.title.y = element_text(linewidth=14)
+            axis.text.x = element_text(size=14),
+            axis.text.y = element_text(size=14),
+            axis.title.x = element_text(size=14),
+            axis.title.y = element_text(size=14)
         ) + ggtitle(title_)
 }
 
@@ -188,16 +182,16 @@ dat %>%
               ymin=weighted.mean(believed_true,weight,na.rm=T)-1.96*weighted.sd(believed_true,weight,na.rm=T)/sqrt(n())) %>%
     ggplot(aes(x=treat, y=y, ymin=ymin, ymax=ymax)) + 
     geom_bar(stat="identity") + ylim(c(0, 5)) + 
-    geom_errorbar(position=position_dodge(.9), width=.2, linewidth=1) +
+    geom_errorbar(position=position_dodge(.9), width=.2, size=1) +
     xlab("Scandal clipping") + ylab("Credibility confidence") +
     ggtitle(paste0("n=",n)) +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=12),
-            axis.text.y = element_text(linewidth=12),
-            axis.title.x = element_text(linewidth=14),
-            axis.title.y = element_text(linewidth=14)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=12),
+            axis.text.y = element_text(size=12),
+            axis.title.x = element_text(size=14),
+            axis.title.y = element_text(size=14)
         )
 ggsave(file = "figures/firststage_deception.pdf", width=5, height=3.05)
 if(SHOW_PDFS) system("open figures/firststage_deception.pdf")
@@ -221,11 +215,11 @@ dat %>%
     ggtitle(paste0("n=",n)) +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=12),
-            axis.text.y = element_text(linewidth=12),
-            axis.title.x = element_text(linewidth=14),
-            axis.title.y = element_text(linewidth=8)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=12),
+            axis.text.y = element_text(size=12),
+            axis.title.x = element_text(size=14),
+            axis.title.y = element_text(size=8)
         )
 ggsave(file = "figures/firststage_deception_binary.pdf", width=5, height=3.05)
 if(SHOW_PDFS) system("open figures/firststage_deception_binary.pdf")
@@ -361,10 +355,10 @@ stargazer(h1.m,
                                "Political Knowledge",
                                "Internet Usage",
                                "Ambivalent Sexism"),
-          dep.var.labels = c("\\normallinewidth Confidence that clipping was credible [1-5]"),
+          dep.var.labels = c("\\normalsize Confidence that clipping was credible [1-5]"),
           omit.stat=c("f", "ser"),
           column.sep.width = "1pt",
-          font.linewidth = "footnotelinewidth",
+          font.size = "footnotesize",
           style = "apsr",
           label = "firststage_deception",
           out="tables/firststage_deception.tex")
@@ -411,10 +405,10 @@ stargazer(h1.m.bin,
                                "Political Knowledge",
                                "Internet Usage",
                                "Ambivalent Sexism"),
-          dep.var.labels = c("\\normallinewidth Somewhat/strongly confident clipping was credible"),
+          dep.var.labels = c("\\normalsize Somewhat/strongly confident clipping was credible"),
           omit.stat=c("f", "ser"),
           column.sep.width = "1pt",
-          font.linewidth = "footnotelinewidth",
+          font.size = "footnotesize",
           label = "firststage_deception2",
           style = "apsr",
           out="tables/firststage_deception2.tex")
@@ -466,17 +460,17 @@ dat %>%
     ggplot(aes(x=treat, y=y, ymin=ymin, ymax=ymax)) + 
     geom_bar(stat="identity") +
     scale_y_continuous(limits=c(30,50),oob = scales::rescale_none) +
-    geom_errorbar(position=position_dodge(.9), width=.2, linewidth=1) +
-    geom_vline(xintercept=2.5, lty=2, linewidth=.5) +
+    geom_errorbar(position=position_dodge(.9), width=.2, size=1) +
+    geom_vline(xintercept=2.5, lty=2, size=.5) +
     xlab("             Reference stimuli                                 Fake scandal clipping") + ylab("Candidate affect thermometer") +
     ggtitle(paste0("n=",n)) +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=12),
-            axis.text.y = element_text(linewidth=12),
-            axis.title.x = element_text(linewidth=14, hjust=0),
-            axis.title.y = element_text(linewidth=14)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=12),
+            axis.text.y = element_text(size=12),
+            axis.title.x = element_text(size=14, hjust=0),
+            axis.title.y = element_text(size=14)
         )  
 ggsave("figures/firststage_feelings.pdf", width=8, height=3.05)
 if(SHOW_PDFS) system("open figures/firststage_feelings.pdf")
@@ -536,10 +530,10 @@ stargazer(h2.m,
                                "Political Knowledge",
                                "Internet Usage",
                                "Ambivalent Sexism"),
-          dep.var.labels = c("\\normallinewidth Elizabeth Warren Affect Thermometer"),
+          dep.var.labels = c("\\normalsize Elizabeth Warren Affect Thermometer"),
           omit.stat=c("f", "ser"),
           column.sep.width = "-2pt",
-          font.linewidth = "footnotelinewidth",
+          font.size = "footnotesize",
           style = "apsr",
           label = "firststage_feelings",
           out="tables/firststage_feelings.tex")
@@ -581,19 +575,20 @@ for (favor in c("post_favor_Biden","post_favor_Klobuchar","post_favor_Sanders","
     plcb_df$target <- favor
     plcbs_df <- bind_rows(plcbs_df, plcb_df)
 }
+
 plcbs_df %>% 
     mutate(target = replace(target, target == "post_favor_Sanders", "Bernie Sanders")) %>% 
     mutate(target = replace(target, target == "post_favor_Klobuchar", "Amy Klobuchar")) %>% 
     mutate(target = replace(target, target == "post_favor_Bloomberg", "Michael Bloomberg")) %>% 
     mutate(target = replace(target, target == "post_favor_Biden", "Joe Biden")) %>% 
     mutate(target = fct_relevel(target, "Joe Biden", "Michael Bloomberg", "Bernie Sanders", "Amy Klobuchar", "Elizabeth Warren")) %>%
-    mutate(model = fct_relevel(model, "without controls", "PID controls", "full controls")) %>%
+    mutate(model = fct_relevel(model, "Without controls", "PID controls", "Full controls")) %>%
     mutate(sig = as.factor(ifelse(estimate-1.96*std.error > 0 | estimate+1.96*std.error < 0, 
                                   "black", "gray"))) %>%
     ggplot(aes(x=target, y=estimate, ymin=estimate-1.96*std.error, ymax=estimate+1.96*std.error, group=term, color=sig)) +
-    geom_pointrange(position = position_dodge(width=0.5), linewidth=1) +
+    geom_pointrange(position = position_dodge(width=0.5), size=1) +
     geom_text(aes(label = term, y = estimate+1.96*std.error+2), position = position_dodge(width=0.5), color="black") +
-    coord_flip() +z
+    coord_flip() +
     geom_hline(yintercept=0, lty=2, alpha=0.5) + 
     geom_vline(xintercept=4.5, lty=1, alpha=0.5) +
     ylab("Effect on affect thermometer") + xlab("Affect thermometer target") +
@@ -602,12 +597,12 @@ plcbs_df %>%
     theme_linedraw2 + 
         theme(
             legend.position = "none",
-            axis.text.x = element_text(linewidth=20),
-            axis.text.y = element_text(linewidth=20),
-            strip.text = element_text(linewidth=26),
+            axis.text.x = element_text(size=20),
+            axis.text.y = element_text(size=20),
+            strip.text = element_text(size=26),
             panel.spacing = unit(2, "lines"),
-            axis.title.x = element_text(linewidth=24),
-            axis.title.y = element_text(linewidth=24)
+            axis.title.x = element_text(size=24),
+            axis.title.y = element_text(size=24)
         )
 ggsave("figures/firststage_feelings_placebo.pdf", width=15.5, height=8)
 if(SHOW_PDFS) system("open figures/firststage_feelings_placebo.pdf")
@@ -642,15 +637,15 @@ dat %>%
     geom_text(aes(label=scales::percent(round(`%`,2), accuracy=1), y=`%`+0.05)) +
     geom_bar(stat="identity") +
     scale_y_continuous(labels = scales::percent_format(accuracy = 1)) + 
-    geom_vline(aes(xintercept=ifelse(belief != "real", 1.5, -1)), lty=2, linewidth=.5, alpha=0.8) +
+    geom_vline(aes(xintercept=ifelse(belief != "real", 1.5, -1)), lty=2, size=.5, alpha=0.8) +
     ylab("% somewhat/strongly believe clipping was...") + xlab("") +
     theme_linedraw2 + 
         theme(
-            axis.text.x = element_text(linewidth=10),
-            axis.text.y = element_text(linewidth=12),
-            strip.text = element_text(linewidth=18),
-            axis.title.x = element_text(linewidth=16),
-            axis.title.y = element_text(linewidth=8)
+            axis.text.x = element_text(size=10),
+            axis.text.y = element_text(size=12),
+            strip.text = element_text(size=18),
+            axis.title.x = element_text(size=16),
+            axis.title.y = element_text(size=8)
         )
 ggsave("figures/firststage_belief_other.pdf", width=8, height=3.05)
 if(SHOW_PDFS) system("open figures/firststage_belief_other.pdf") ## this is technically not pre-registered
@@ -730,10 +725,10 @@ stargazer(h3aI.m,
           omit = c("response_wave_ID", COVARS),
           # notes = c("\\textit{Notes}: Same controls used as in previous models."),
           covariate.labels = c("Information"),
-          dep.var.labels = c("\\normallinewidth Trust in Media (Combined Index)"),
+          dep.var.labels = c("\\normalsize Trust in Media (Combined Index)"),
           omit.stat=c("f", "ser"),
           column.sep.width = "-2pt",
-          font.linewidth = "footnotelinewidth",
+          font.size = "footnotesize",
           # style = "apsr",
           label = "firststage_mediatrust",
           out="tables/firststage_mediatrust.tex") ##NEED TO MANUALLY ADJUST TO MATCH FORMAT OF REST
@@ -772,11 +767,11 @@ stargazer(h3aI.m.onl,
           add.lines = list(c("Controls?","","\\checkmark","","\\checkmark","","\\checkmark","","\\checkmark")),    
           omit = c("response_wave_ID", COVARS),
           covariate.labels = c("Information"),
-          dep.var.caption  = "\\normallinewidth Trust in...",
+          dep.var.caption  = "\\normalsize Trust in...",
           dep.var.labels = c("Offline Media", "Online Media", "Social Media", "Combined Index"),
           omit.stat=c("f", "ser"),
           column.sep.width = "-2pt",
-          font.linewidth = "footnotelinewidth",
+          font.size = "footnotesize",
           # style = "apsr",
           out="tables/firststage_mediatrust2.tex") ##NEED TO MANUALLY ADJUST TO MATCH FORMAT OF REST
 
@@ -846,10 +841,10 @@ stargazer(h3aII.m,
           covariate.labels = c("Credible",
                                "Video",
                                "Credible x Video"),
-          dep.var.labels  = "\\normallinewidth Trust in Media (Combined Index)",
+          dep.var.labels  = "\\normalsize Trust in Media (Combined Index)",
           omit.stat=c("f", "ser"),
           column.sep.width = "-2pt",
-          font.linewidth = "footnotelinewidth",
+          font.size = "footnotesize",
           style = "apsr",
           out="tables/firststage_mediatrust3.tex") ##NEED TO MANUALLY ADJUST TO MATCH FORMAT OF REST
 
@@ -889,11 +884,11 @@ stargazer(h3aII.m1.adj,
           covariate.labels = c("Credibility",
                                "Video",
                                "Credibility x Video"),
-          dep.var.caption  = "\\normallinewidth Trust in...",
+          dep.var.caption  = "\\normalsize Trust in...",
           dep.var.labels = c("Offline Media", "Online Media", "Social Media", "Combined Index"),
           omit.stat=c("f", "ser"),
           column.sep.width = "-2pt",
-          font.linewidth = "footnotelinewidth",
+          font.size = "footnotesize",
           # style = "apsr",
           out="tables/firststage_mediatrust4.tex") ##NEED TO MANUALLY ADJUST TO MATCH FORMAT OF REST
 
@@ -946,16 +941,16 @@ dat %>%
     ggplot(aes(x=exp_1_prompt, y=y, ymin=ymin, ymax=ymax)) +
     geom_bar(stat="identity") +
     ylab("Credibility confidence") + xlab("") +
-    geom_errorbar(position=position_dodge(.9), width=.2, linewidth=1) +
+    geom_errorbar(position=position_dodge(.9), width=.2, size=1) +
     ggtitle(paste0("n_control=",n0," | n_info=",n1)) +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=12),
-            axis.text.y = element_text(linewidth=12),
-            strip.text = element_text(linewidth=16),
-            axis.title.x = element_text(linewidth=14),
-            axis.title.y = element_text(linewidth=14)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=12),
+            axis.text.y = element_text(size=12),
+            strip.text = element_text(size=16),
+            axis.title.x = element_text(size=14),
+            axis.title.y = element_text(size=14)
         )
 ggsave("figures/firststage_belief_byinfo.pdf", width=4, height=3.05)
 if(SHOW_PDFS) system("open figures/firststage_belief_byinfo.pdf")
@@ -976,12 +971,12 @@ dat %>%
     ggtitle(paste0("n_control=",n0," | n_info=",n1)) +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=12),
-            axis.text.y = element_text(linewidth=12),
-            strip.text = element_text(linewidth=16),
-            axis.title.x = element_text(linewidth=14),
-            axis.title.y = element_text(linewidth=8)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=12),
+            axis.text.y = element_text(size=12),
+            strip.text = element_text(size=16),
+            axis.title.x = element_text(size=14),
+            axis.title.y = element_text(size=8)
         )
 ggsave("figures/firststage_belief_byinfo_binary.pdf", width=4, height=3.05)
 if(SHOW_PDFS) system("open figures/firststage_belief_byinfo_binary.pdf")
@@ -1013,20 +1008,20 @@ dat.viz %>%
     ggplot(aes(x=treat, y=y, ymin=ymin, ymax=ymax)) +
     geom_bar(stat="identity") +
     ylab("Credibility confidence") + xlab("Scandal clipping") +
-    geom_errorbar(position=position_dodge(.9), width=.2, linewidth=1) +
+    geom_errorbar(position=position_dodge(.9), width=.2, size=1) +
     scale_y_continuous(limits=c(2,3.75),oob = scales::rescale_none) +
     facet_wrap(~exp_1_prompt) +
     geom_hline(data = dat.viz %>% group_by(exp_1_prompt) %>% summarise(yint=mean(y)),
-               aes(yintercept = yint), linewidth=1, lty=1, color="red") +
+               aes(yintercept = yint), size=1, lty=1, color="red") +
     ggtitle(paste0("n_control=",n0," | n_info=",n1)) +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=12),
-            axis.text.y = element_text(linewidth=12),
-            strip.text = element_text(linewidth=16),
-            axis.title.x = element_text(linewidth=14),
-            axis.title.y = element_text(linewidth=14)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=12),
+            axis.text.y = element_text(size=12),
+            strip.text = element_text(size=16),
+            axis.title.x = element_text(size=14),
+            axis.title.y = element_text(size=14)
         )
 ggsave("figures/firststage_belief_byinfo2.pdf", width=8, height=3.05)
 if(SHOW_PDFS) system("open figures/firststage_belief_byinfo2.pdf")
@@ -1056,15 +1051,15 @@ dat.viz %>%
     facet_wrap(~exp_1_prompt) +
     geom_text(aes(label=scales::percent(round(y,2), accuracy=1), y=y+0.04)) +
     geom_hline(data = dat.viz %>% group_by(exp_1_prompt) %>% summarise(yint=mean(y)),
-               aes(yintercept = yint), linewidth=1, lty=1, color="red") +
+               aes(yintercept = yint), size=1, lty=1, color="red") +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=12),
-            axis.text.y = element_text(linewidth=12),
-            strip.text = element_text(linewidth=16),
-            axis.title.x = element_text(linewidth=14),
-            axis.title.y = element_text(linewidth=8)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=12),
+            axis.text.y = element_text(size=12),
+            strip.text = element_text(size=16),
+            axis.title.x = element_text(size=14),
+            axis.title.y = element_text(size=8)
         )
 ggsave("figures/firststage_belief_byinfo_binary2.pdf", width=8, height=3.05)
 if(SHOW_PDFS) system("open figures/firststage_belief_byinfo_binary2.pdf")
@@ -1118,13 +1113,13 @@ stargazer(h4.full.m,
               # "Info x Ad"
           ),
           omit = c(COVARS, "response_wave_ID"),
-          dep.var.labels = c("\\normallinewidth Confidence that clipping was credible [1-5]"),
+          dep.var.labels = c("\\normalsize Confidence that clipping was credible [1-5]"),
           add.lines = list(c("Weighted?", "", "\\checkmark", "", "", "\\checkmark","","\\checkmark"),
                            c("Low-Quality Dropped?","","","\\checkmark","","","\\checkmark","\\checkmark"),
                            c("Controls?","","","","\\checkmark","\\checkmark","\\checkmark","\\checkmark")),
           omit.stat=c("f", "ser"),
           column.sep.width = "1pt",
-          font.linewidth = "footnotelinewidth",
+          font.size = "footnotesize",
           style = "apsr",
           label="firststage_deception_byinfo",
           out="tables/firststage_deception_byinfo.tex")
@@ -1172,13 +1167,13 @@ stargazer(h4.full.m.bin,
               # "Info x Ad"
           ),
           omit = c(COVARS, "response_wave_ID"),
-          dep.var.labels = c("\\normallinewidth Somewhat/strongly confident clipping was credible"),
+          dep.var.labels = c("\\normalsize Somewhat/strongly confident clipping was credible"),
           add.lines = list(c("Weighted?", "", "\\checkmark", "", "", "\\checkmark","","\\checkmark"),
                            c("Low-Quality Dropped?","","","\\checkmark","","","\\checkmark","\\checkmark"),
                            c("Controls?","","","","\\checkmark","\\checkmark","\\checkmark","\\checkmark")),
           omit.stat=c("f", "ser"),
           column.sep.width = "1pt",
-          font.linewidth = "footnotelinewidth",
+          font.size = "footnotesize",
           style = "apsr",
           label="firststage_deception_byinfo2",
           out="tables/firststage_deception_byinfo2.tex")
@@ -1227,20 +1222,20 @@ dat.viz %>%
     ggplot(aes(x=treat, y=y, ymin=ymin, ymax=ymax)) +
     geom_bar(stat="identity") +
     ylab("Credibility confidence") + xlab("Scandal clipping") +
-    geom_errorbar(position=position_dodge(.9), width=.2, linewidth=1) +
+    geom_errorbar(position=position_dodge(.9), width=.2, size=1) +
     scale_y_continuous(limits=c(1,4),oob = scales::rescale_none) +
     facet_grid(~crt) +
     geom_hline(data = dat.viz %>% group_by(crt) %>% summarise(yint=mean(y)),
-               aes(yintercept = yint), linewidth=1, lty=1, color="red") +
+               aes(yintercept = yint), size=1, lty=1, color="red") +
     ggtitle(paste0("n=",n," | n_low=",n.low," | n_mod=",n.mod," | n_high=",n.high)) +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=12),
-            axis.text.y = element_text(linewidth=12),
-            strip.text = element_text(linewidth=16),
-            axis.title.x = element_text(linewidth=16),
-            axis.title.y = element_text(linewidth=16)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=12),
+            axis.text.y = element_text(size=12),
+            strip.text = element_text(size=16),
+            axis.title.x = element_text(size=16),
+            axis.title.y = element_text(size=16)
         )
 ggsave("figures/firststage_belief_byC.R..pdf", width=8, height=3.05)
 if(SHOW_PDFS) system("open figures/firststage_belief_byC.R..pdf")
@@ -1265,16 +1260,16 @@ dat.viz %>%
     facet_grid(~crt) +
     geom_text(aes(label=scales::percent(round(y,2), accuracy=1), y=y+0.04)) +
     geom_hline(data = dat.viz %>% group_by(crt) %>% summarise(yint=mean(y)),
-               aes(yintercept = yint), linewidth=1, lty=1, color="red") +
+               aes(yintercept = yint), size=1, lty=1, color="red") +
     ggtitle(paste0("n=",n," | n_low=",n.low," | n_mod=",n.mod," | n_high=",n.high)) +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=12),
-            axis.text.y = element_text(linewidth=12),
-            strip.text = element_text(linewidth=16),
-            axis.title.x = element_text(linewidth=16),
-            axis.title.y = element_text(linewidth=8)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=12),
+            axis.text.y = element_text(size=12),
+            strip.text = element_text(size=16),
+            axis.title.x = element_text(size=16),
+            axis.title.y = element_text(size=8)
         )
 ggsave("figures/firststage_belief_byC.R._binary.pdf", width=8, height=3.05)
 if(SHOW_PDFS) system("open figures/firststage_belief_byC.R._binary.pdf")
@@ -1317,7 +1312,7 @@ stargazer(h5m,
           table.layout ="=d#-t-a-s=n",
           notes.align = "l",
           title="\\textbf{Models of Cognitive Reflection and Credibility Confidence of Clipping in Incidental Exposure Experiment}",
-          dep.var.labels = c("\\normallinewidth Confidence that clipping was credible [1-5]"),
+          dep.var.labels = c("\\normalsize Confidence that clipping was credible [1-5]"),
           covariate.labels = c("Audio","Text",
                                "C.R.",
                                "C.R. x Audio",
@@ -1328,10 +1323,10 @@ stargazer(h5m,
                            c("Controls?","","","","\\checkmark","\\checkmark","\\checkmark","\\checkmark")),
           omit.stat=c("f", "ser"),
           column.sep.width = "1pt",
-          font.linewidth = "footnotelinewidth",
+          font.size = "footnotesize",
           style = "apsr",
-          label = "firststage_deception_byC.R.",
-          out="tables/firststage_deception_byC.R..tex")
+          label = "firststage_deception_byCRT",
+          out="tables/firststage_deception_byCRT.tex")
 
 
 (h5m.b1 <- lm(believed1_true ~ treat*crt, dat %>% filter(!is.na(treat), treat != "ad", treat !="skit"))); summary(h5m.b1); 
@@ -1369,7 +1364,7 @@ stargazer(h5m.b1,
           table.layout ="=d#-t-a-s=n",
           notes.align = "l",
           title="\\textbf{Models of Cognitive Reflection and Binarized Credibility Confidence of Clipping in Incidental Exposure Experiment}",
-          dep.var.labels = c("\\normallinewidth Somewhat/strongly confident clipping was credible"),
+          dep.var.labels = c("\\normalsize Somewhat/strongly confident clipping was credible"),
           covariate.labels = c("Audio","Text",
                                "C.R.",
                                "C.R. x Audio",
@@ -1380,10 +1375,10 @@ stargazer(h5m.b1,
                            c("Controls?","","","","\\checkmark","\\checkmark","\\checkmark","\\checkmark")),
           omit.stat=c("f", "ser"),
           column.sep.width = "1pt",
-          font.linewidth = "footnotelinewidth",
+          font.size = "footnotesize",
           style = "apsr",
-          label="firststage_deception_byC.R.2",
-          out="tables/firststage_deception_byC.R.2.tex")
+          label="firststage_deception_byCRT2",
+          out="tables/firststage_deception_byCRT2.tex")
 
 #####------------------------------------------------------#
 ##### H6a: Heterogeneities in deception by partisanship ####
@@ -1415,15 +1410,15 @@ dat %>%
     ggplot(aes(x=PID, y=y, ymin=ymin, ymax=ymax)) +
     geom_bar(stat="identity") +
     ylab("Credibility confidence") + xlab("") +
-    geom_errorbar(position=position_dodge(.9), width=.2, linewidth=1) +
+    geom_errorbar(position=position_dodge(.9), width=.2, size=1) +
     ggtitle(paste0("n=",n," | n_dem=",n.dem," | n_ind=",n.ind," | n_rep=",n.rep)) +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=14),
-            axis.text.y = element_text(linewidth=14),
-            axis.title.x = element_text(linewidth=18),
-            axis.title.y = element_text(linewidth=18)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=14),
+            axis.text.y = element_text(size=14),
+            axis.title.x = element_text(size=18),
+            axis.title.y = element_text(size=18)
         )
 ggsave("figures/firststage_belief_byPID.pdf", width=4.75, height=4.5)
 if(SHOW_PDFS) system("open figures/firststage_belief_byPID.pdf")
@@ -1446,11 +1441,11 @@ dat %>%
     ggtitle(paste0("n=",n," | n_dem=",n.dem," | n_ind=",n.ind," | n_rep=",n.rep)) +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=14),
-            axis.text.y = element_text(linewidth=14),
-            axis.title.x = element_text(linewidth=18),
-            axis.title.y = element_text(linewidth=11)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=14),
+            axis.text.y = element_text(size=14),
+            axis.title.x = element_text(size=18),
+            axis.title.y = element_text(size=11)
         )
 ggsave("figures/firststage_belief_byPID_binary.pdf", width=4.75, height=4.5)
 if(SHOW_PDFS) system("open figures/firststage_belief_byPID_binary.pdf")
@@ -1475,20 +1470,20 @@ dat.viz %>%
     ggplot(aes(x=treat, y=y, ymin=ymin, ymax=ymax)) +
     geom_bar(stat="identity") +
     ylab("Credibility confidence") + xlab("Scandal clipping") +
-    geom_errorbar(position=position_dodge(.9), width=.2, linewidth=1) +
+    geom_errorbar(position=position_dodge(.9), width=.2, size=1) +
     scale_y_continuous(limits=c(2,4.5),oob = scales::rescale_none) +
     facet_wrap(~PID) +
     geom_hline(data = dat.viz %>% group_by(PID) %>% summarise(yint=mean(y)),
-               aes(yintercept = yint), linewidth=1, lty=1, color="red") +
+               aes(yintercept = yint), size=1, lty=1, color="red") +
     ggtitle(paste0("n=",n," | n_dem=",n.dem," | n_ind=",n.ind," | n_rep=",n.rep)) +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=12),
-            axis.text.y = element_text(linewidth=12),
-            strip.text = element_text(linewidth=18),
-            axis.title.x = element_text(linewidth=16),
-            axis.title.y = element_text(linewidth=16)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=12),
+            axis.text.y = element_text(size=12),
+            strip.text = element_text(size=18),
+            axis.title.x = element_text(size=16),
+            axis.title.y = element_text(size=16)
         )
 ggsave("figures/firststage_belief_byPID2.pdf", width=8, height=3.05)
 if(SHOW_PDFS) system("open figures/firststage_belief_byPID2.pdf")
@@ -1514,16 +1509,16 @@ dat.viz %>%
     geom_text(aes(label=scales::percent(round(y,2), accuracy=1), y=y+0.04)) +
     facet_wrap(~PID) +
     geom_hline(data = dat.viz %>% group_by(PID) %>% summarise(yint=mean(y)),
-               aes(yintercept = yint), linewidth=1, lty=1, color="red") +
+               aes(yintercept = yint), size=1, lty=1, color="red") +
     ggtitle(paste0("n=",n," | n_dem=",n.dem," | n_ind=",n.ind," | n_rep=",n.rep)) +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=12),
-            axis.text.y = element_text(linewidth=12),
-            strip.text = element_text(linewidth=18),
-            axis.title.x = element_text(linewidth=16),
-            axis.title.y = element_text(linewidth=11)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=12),
+            axis.text.y = element_text(size=12),
+            strip.text = element_text(size=18),
+            axis.title.x = element_text(size=16),
+            axis.title.y = element_text(size=11)
         )
 ggsave("figures/firststage_belief_byPID_binary2.pdf", width=8, height=3.05)
 if(SHOW_PDFS) system("open figures/firststage_belief_byPID_binary2.pdf")
@@ -1583,13 +1578,13 @@ stargazer(h6a,
                                "Repub x Audio x C.R.",
                                "Repub x Text x C.R."),
           omit = c("response_wave", COVARS[!(COVARS %in% c("PID","crt"))], "exp_1"),
-          dep.var.labels = c("\\normallinewidth Confidence that clipping was credible [1-5]"),
+          dep.var.labels = c("\\normalsize Confidence that clipping was credible [1-5]"),
           add.lines = list(c("Weighted?", "", "\\checkmark", "", "", "\\checkmark","","\\checkmark"),
                            c("Low-Quality Dropped?","","","\\checkmark","","","\\checkmark","\\checkmark"),
                            c("Controls?","","","","\\checkmark","\\checkmark","\\checkmark","\\checkmark")),
           omit.stat=c("f", "ser"),
           column.sep.width = "1pt",
-          font.linewidth = "footnotelinewidth",
+          font.size = "footnotesize",
           style = "apsr",
           label="firststage_deception_byPID",
           out="tables/firststage_deception_byPID.tex")
@@ -1642,13 +1637,13 @@ stargazer(h6a.b1,
                                "Repub x Audio x C.R.",
                                "Repub x Text x C.R."),
           omit = c("response_wave", COVARS[!(COVARS %in% c("PID","crt"))], "exp_1"),
-          dep.var.labels = c("\\normallinewidth Somewhat/strongly confident clipping was credible"),
+          dep.var.labels = c("\\normalsize Somewhat/strongly confident clipping was credible"),
           add.lines = list(c("Weighted?", "", "\\checkmark", "", "", "\\checkmark","","\\checkmark"),
                            c("Low-Quality Dropped?","","","\\checkmark","","","\\checkmark","\\checkmark"),
                            c("Controls?","","","","\\checkmark","\\checkmark","\\checkmark","\\checkmark")),
           omit.stat=c("f", "ser"),
           column.sep.width = "1pt",
-          font.linewidth = "footnotelinewidth",
+          font.size = "footnotesize",
           style = "apsr",
           label="firststage_deception_byPID2",
           out="tables/firststage_deception_byPID2.tex")
@@ -1690,20 +1685,20 @@ dat.viz %>%
     ggplot(aes(x=treat, y=y, ymin=ymin, ymax=ymax)) +
     geom_bar(stat="identity") +
     ylab("feeling thermometer") + xlab("") +
-    geom_errorbar(position=position_dodge(.9), width=.2, linewidth=1) +
+    geom_errorbar(position=position_dodge(.9), width=.2, size=1) +
     geom_hline(data = dat.viz %>% group_by(PID) %>% summarise(yint=mean(y)),
-               aes(yintercept = yint), linewidth=1, lty=1, color="red") +
-    geom_vline(xintercept=2.5, linewidth=0.5, lty=2) +
+               aes(yintercept = yint), size=1, lty=1, color="red") +
+    geom_vline(xintercept=2.5, size=0.5, lty=2) +
     facet_wrap(~PID) + 
     ggtitle(paste0("n=",n," | n_dem=",n.dem," | n_ind=",n.ind," | n_rep=",n.rep)) +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=11),
-            axis.text.y = element_text(linewidth=12),
-            strip.text = element_text(linewidth=18),
-            axis.title.x = element_text(linewidth=16),
-            axis.title.y = element_text(linewidth=16)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=11),
+            axis.text.y = element_text(size=12),
+            strip.text = element_text(size=18),
+            axis.title.x = element_text(size=16),
+            axis.title.y = element_text(size=16)
         )
 ggsave("figures/firststage_feelings_byPID.pdf", width=8, height=3.05)
 if(SHOW_PDFS) system("open figures/firststage_feelings_byPID.pdf")
@@ -1773,10 +1768,10 @@ stargazer(h6b.b1,
                            c("Low-Quality Dropped?","","","\\checkmark","","","\\checkmark","\\checkmark"),
                            c("Controls?","","","","\\checkmark","\\checkmark","\\checkmark","\\checkmark")),
           omit = c("response_wave", COVARS[!(COVARS %in% c("PID","crt"))], "exp_1"),         
-          dep.var.labels = c("\\normallinewidth Elizabeth Warren Feeling Thermometer"),
+          dep.var.labels = c("\\normalsize Elizabeth Warren Feeling Thermometer"),
           omit.stat=c("f", "ser"),
           column.sep.width = "1pt",
-          font.linewidth = "scriptlinewidth",
+          font.size = "scriptsize",
           style = "apsr",
           label="firststage_feelings_byPID",
           out="tables/firststage_feelings_byPID.tex")
@@ -1829,15 +1824,15 @@ dat %>%
     ggplot(aes(x=ambivalent_sexism, y=y, ymin=ymin, ymax=ymax)) +
     geom_bar(stat="identity") +
     ylab("Credibility confidence") + xlab("level of ambivalent sexism") +
-    geom_errorbar(position=position_dodge(.9), width=.2, linewidth=1) +
+    geom_errorbar(position=position_dodge(.9), width=.2, size=1) +
     ggtitle(paste0("n=",n," | n_low=",n.low," | n_mod=",n.mod," | n_high=",n.high)) +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=14),
-            axis.text.y = element_text(linewidth=14),
-            axis.title.x = element_text(linewidth=16),
-            axis.title.y = element_text(linewidth=16)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=14),
+            axis.text.y = element_text(size=14),
+            axis.title.x = element_text(size=16),
+            axis.title.y = element_text(size=16)
         )
 ggsave("figures/firststage_belief_bysexism.pdf", width=4, height=4.5)
 if(SHOW_PDFS) system("open figures/firststage_belief_bysexism.pdf")
@@ -1858,11 +1853,11 @@ dat %>%
     ggtitle(paste0("n=",n," | n_low=",n.low," | n_mod=",n.mod," | n_high=",n.high)) +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=14),
-            axis.text.y = element_text(linewidth=14),
-            axis.title.x = element_text(linewidth=18),
-            axis.title.y = element_text(linewidth=18)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=14),
+            axis.text.y = element_text(size=14),
+            axis.title.x = element_text(size=18),
+            axis.title.y = element_text(size=18)
         )
 ggsave("figures/firststage_belief_bysexism_binary.pdf", width=4, height=4.5)
 if(SHOW_PDFS) system("open figures/firststage_belief_bysexism_binary.pdf")
@@ -1887,20 +1882,20 @@ dat.viz %>%
     geom_bar(stat="identity") +
     ylab("Credibility confidence") + 
     xlab("") +
-    geom_errorbar(position=position_dodge(.9), width=.2, linewidth=1) +
+    geom_errorbar(position=position_dodge(.9), width=.2, size=1) +
     scale_y_continuous(limits=c(1,4),oob = scales::rescale_none) +
     facet_wrap(~ambivalent_sexism) +
     geom_hline(data = dat.viz %>% group_by(ambivalent_sexism) %>% summarise(yint=mean(y)),
-               aes(yintercept = yint), linewidth=1, lty=1, color="red") +
+               aes(yintercept = yint), size=1, lty=1, color="red") +
     ggtitle(paste0("n=",n," | n_low=",n.low," | n_mod=",n.mod," | n_high=",n.high)) +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=12),
-            axis.text.y = element_text(linewidth=12),
-            strip.text = element_text(linewidth=18),
-            axis.title.x = element_text(linewidth=16),
-            axis.title.y = element_text(linewidth=16)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=12),
+            axis.text.y = element_text(size=12),
+            strip.text = element_text(size=18),
+            axis.title.x = element_text(size=16),
+            axis.title.y = element_text(size=16)
         )
 ggsave("figures/firststage_belief_bysexism2.pdf", width=8, height=3.05)
 if(SHOW_PDFS) system("open figures/firststage_belief_bysexism2.pdf")
@@ -1927,16 +1922,16 @@ dat.viz %>%
     facet_wrap(~ambivalent_sexism) +
     geom_text(aes(label=scales::percent(round(y,2), accuracy=1), y=y+0.04)) +
     geom_hline(data = dat.viz %>% group_by(ambivalent_sexism) %>% summarise(yint=mean(y)),
-               aes(yintercept = yint), linewidth=1, lty=1, color="red") +
+               aes(yintercept = yint), size=1, lty=1, color="red") +
     ggtitle(paste0("n=",n," | n_low=",n.low," | n_mod=",n.mod," | n_high=",n.high)) +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=12),
-            axis.text.y = element_text(linewidth=12),
-            strip.text = element_text(linewidth=18),
-            axis.title.x = element_text(linewidth=16),
-            axis.title.y = element_text(linewidth=16)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=12),
+            axis.text.y = element_text(size=12),
+            strip.text = element_text(size=18),
+            axis.title.x = element_text(size=16),
+            axis.title.y = element_text(size=16)
         )
 ggsave("figures/firststage_belief_bysexism_binary2.pdf", width=8, height=3.05)
 if(SHOW_PDFS) system("open figures/firststage_belief_bysexism_binary2.pdf")
@@ -1986,13 +1981,13 @@ stargazer(h7a,
                                "A.S. x Audio",
                                "A.S. x Text"),
           omit = c("response_wave", COVARS[!(COVARS %in% c("ambivalent_sexism"))], "exp_1"),
-          dep.var.labels = c("\\normallinewidth Confidence that clipping was credible [1-5]"),
+          dep.var.labels = c("\\normalsize Confidence that clipping was credible [1-5]"),
           add.lines = list(c("Weighted?", "", "\\checkmark", "", "", "\\checkmark","","\\checkmark"),
                            c("Low-Quality Dropped?","","","\\checkmark","","","\\checkmark","\\checkmark"),
                            c("Controls?","","","","\\checkmark","\\checkmark","\\checkmark","\\checkmark")),
           omit.stat=c("f", "ser"),
           column.sep.width = "1pt",
-          font.linewidth = "footnotelinewidth",
+          font.size = "footnotesize",
           style = "apsr",
           label="firststage_deception_bysexism",
           out="tables/firststage_deception_bysexism.tex")
@@ -2038,13 +2033,13 @@ stargazer(h7a.b1,
                                "A.S. x Audio",
                                "A.S. x Text"),
           omit = c("response_wave", COVARS[!(COVARS %in% c("ambivalent_sexism"))], "exp_1"),
-          dep.var.labels = c("\\normallinewidth Somewhat/strongly confident clipping was credible"),
+          dep.var.labels = c("\\normalsize Somewhat/strongly confident clipping was credible"),
           add.lines = list(c("Weighted?", "", "\\checkmark", "", "", "\\checkmark","","\\checkmark"),
                            c("Low-Quality Dropped?","","","\\checkmark","","","\\checkmark","\\checkmark"),
                            c("Controls?","","","","\\checkmark","\\checkmark","\\checkmark","\\checkmark")),
           omit.stat=c("f", "ser"),
           column.sep.width = "1pt",
-          font.linewidth = "footnotelinewidth",
+          font.size = "footnotesize",
           style = "apsr",
           label="firststage_deception_bysexism2",
           out="tables/firststage_deception_bysexism2.tex")
@@ -2102,8 +2097,8 @@ h7_plcbs_df %>%
     mutate(sig = as.factor(ifelse(estimate-1.96*std.error > 0 | estimate+1.96*std.error < 0, 
                                   1, 0.8))) %>%
     ggplot(aes(x=target, y=estimate, ymin=estimate-1.96*std.error, ymax=estimate+1.96*std.error, group=term, alpha=sig, color=term)) +
-    geom_pointrange(position = position_dodge(width=0.7), linewidth=1) +
-    # geom_text(aes(label = term, y = estimate+1.96*std.error+2.5), position = position_dodge(width=0.7), color="black", linewidth=6) +
+    geom_pointrange(position = position_dodge(width=0.7), size=1) +
+    # geom_text(aes(label = term, y = estimate+1.96*std.error+2.5), position = position_dodge(width=0.7), color="black", size=6) +
     coord_flip() +
     geom_hline(yintercept=0, lty=2, alpha=0.5) + 
     geom_vline(xintercept=4.5, lty=1, alpha=0.5) +
@@ -2112,14 +2107,14 @@ h7_plcbs_df %>%
     scale_color_manual(values=c("black","blue","red")) +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
+            title = element_text(size=5),
             legend.position = "none",
-            axis.text.x = element_text(linewidth=20),
-            axis.text.y = element_text(linewidth=20),
-            strip.text = element_text(linewidth=26),
+            axis.text.x = element_text(size=20),
+            axis.text.y = element_text(size=20),
+            strip.text = element_text(size=26),
             panel.spacing = unit(2, "lines"),
-            axis.title.x = element_text(linewidth=24),
-            axis.title.y = element_text(linewidth=24)
+            axis.title.x = element_text(size=24),
+            axis.title.y = element_text(size=24)
         )
 ggsave("figures/firststage_sexism_placebo.pdf", width=15.5, height=6)
 if(SHOW_PDFS) system("open figures/firststage_sexism_placebo.pdf")
@@ -2177,19 +2172,19 @@ dat.viz %>%
     ggplot(aes(x=treat, y=y, ymin=ymin, ymax=ymax)) +
     geom_bar(stat="identity") +
     ylab("feeling thermometer") + xlab("") +
-    geom_errorbar(position=position_dodge(.9), width=.2, linewidth=1) +
+    geom_errorbar(position=position_dodge(.9), width=.2, size=1) +
     geom_hline(data = dat.viz %>% group_by(ambivalent_sexism) %>% summarise(yint=mean(y)),
-               aes(yintercept = yint), linewidth=1, lty=1, color="red") +
-    geom_vline(xintercept=2.5, linewidth=0.5, lty=2) +
+               aes(yintercept = yint), size=1, lty=1, color="red") +
+    geom_vline(xintercept=2.5, size=0.5, lty=2) +
     facet_wrap(~ambivalent_sexism) + 
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=11),
-            axis.text.y = element_text(linewidth=12),
-            strip.text = element_text(linewidth=18),
-            axis.title.x = element_text(linewidth=16),
-            axis.title.y = element_text(linewidth=16)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=11),
+            axis.text.y = element_text(size=12),
+            strip.text = element_text(size=18),
+            axis.title.x = element_text(size=16),
+            axis.title.y = element_text(size=16)
         )
 ggsave("figures/firststage_feelings_bysexism.pdf", width=8, height=3.05)
 if(SHOW_PDFS) system("open figures/firststage_feelings_bysexism.pdf")
@@ -2237,13 +2232,13 @@ stargazer(h7b.b1,
                                "A.S. x Text",
                                "A.S. x Skit"),
           omit = c("response_wave", COVARS[!(COVARS %in% c("ambivalent_sexism"))], "exp_1"),
-          dep.var.labels = c("\\normallinewidth Elizabeth Warren Feeling Thermometer"),
+          dep.var.labels = c("\\normalsize Elizabeth Warren Feeling Thermometer"),
           add.lines = list(c("Weighted?", "", "\\checkmark", "", "", "\\checkmark","","\\checkmark"),
                            c("Low-Quality Dropped?","","","\\checkmark","","","\\checkmark","\\checkmark"),
                            c("Controls?","","","","\\checkmark","\\checkmark","\\checkmark","\\checkmark")),
           omit.stat=c("f", "ser"),
           column.sep.width = "1pt",
-          font.linewidth = "scriptlinewidth",
+          font.size = "scriptsize",
           style = "apsr",
           label="firststage_feelings_bysexism",
           out="tables/firststage_feelings_bysexism.tex")
@@ -2261,13 +2256,13 @@ stargazer(h7b.b1,
 ##      on performance
 (h9.m <- lm(exp_2_pct_correct ~ post_dig_lit, dat)); summary(h9.m); 
 (h89.corr.adj <- lm(exp_2_pct_correct ~ post_dig_lit + exp_2_prompt_accuracy + exp_2_before_debrief + exp_1_prompt_info + polknow + internet_usage +
-                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat%>%mutate(exp_2_before_debrief=!exp_2_after_debrief))); summary(h89.corr.adj);
+                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat)); summary(h89.corr.adj);
 (h89.corr.adj.wt <- lm(exp_2_pct_correct ~ post_dig_lit + exp_2_prompt_accuracy + exp_2_before_debrief + exp_1_prompt_info + polknow + internet_usage +
-                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat%>%mutate(exp_2_before_debrief=!exp_2_after_debrief), weights=weight)); summary(h89.corr.adj);
+                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat, weights=weight)); summary(h89.corr.adj);
 (h89.corr.adj.hq <- lm(exp_2_pct_correct ~ post_dig_lit + exp_2_prompt_accuracy + exp_2_before_debrief + exp_1_prompt_info + polknow + internet_usage +
-                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat%>%mutate(exp_2_before_debrief=!exp_2_after_debrief)%>%filter(!lowq))); summary(h89.corr.adj);
+                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat%>%filter(!lowq))); summary(h89.corr.adj);
 (h89.corr.adj.hq.wt <- lm(exp_2_pct_correct ~ post_dig_lit + exp_2_prompt_accuracy + exp_2_before_debrief + exp_1_prompt_info + polknow + internet_usage +
-                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat%>%mutate(exp_2_before_debrief=!exp_2_after_debrief)%>%filter(!lowq), weights=weight)); summary(h89.corr.adj);
+                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat%>%filter(!lowq), weights=weight)); summary(h89.corr.adj);
 
 h89.corr.df <- bind_rows(
     tidy(h9.m),
@@ -2295,7 +2290,7 @@ stargazer(h8.m,
           notes.align = "l",
           title="\\textbf{Predictors of Detection Task Accuracy}",
           omit = c("response_wave_ID"), 
-          dep.var.labels = c("\\normallinewidth Deepfake Detection Accuracy (\\% Correctly Classified)"),
+          dep.var.labels = c("\\normalsize Deepfake Detection Accuracy (\\% Correctly Classified)"),
           omit.stat=c("f", "ser"),
           order = var_order,
           covariate.labels = c(
@@ -2319,7 +2314,7 @@ stargazer(h8.m,
           add.lines = list(c("Weighted?", "", "", "", "\\checkmark", "","\\checkmark"),
                            c("Low-Quality Dropped?", "", "", "", "","\\checkmark","\\checkmark")),
           column.sep.width = "1pt",
-          font.linewidth = "footnotelinewidth",
+          font.size = "footnotesize",
           style = "apsr",
           label="secondstage_accuracy",
           out="tables/secondstage_accuracy.tex")
@@ -2328,13 +2323,13 @@ stargazer(h8.m,
 (h8.m.fpr <- lm(exp_2_pct_false_fake ~ exp_2_prompt_accuracy, dat, weights=weight)); summary(h8.m.fpr); 
 (h9.m.fpr <- lm(exp_2_pct_false_fake ~ post_dig_lit, dat)); summary(h9.m.fpr); 
 (h89.corr.adj.fpr <- lm(exp_2_pct_false_fake ~ post_dig_lit + exp_2_prompt_accuracy + exp_2_before_debrief + exp_1_prompt_info + polknow + internet_usage +
-                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat%>%mutate(exp_2_before_debrief=!exp_2_after_debrief))); summary(h89.corr.adj.fpr);
+                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat)); summary(h89.corr.adj.fpr);
 (h89.corr.adj.wt.fpr <- lm(exp_2_pct_false_fake ~ post_dig_lit + exp_2_prompt_accuracy + exp_2_before_debrief + exp_1_prompt_info + polknow + internet_usage +
-                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat%>%mutate(exp_2_before_debrief=!exp_2_after_debrief), weights=weight)); summary(h89.corr.adj.fpr);
+                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat, weights=weight)); summary(h89.corr.adj.fpr);
 (h89.corr.adj.hq.fpr <- lm(exp_2_pct_false_fake ~ post_dig_lit + exp_2_prompt_accuracy + exp_2_before_debrief + exp_1_prompt_info + polknow + internet_usage +
-                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat%>%mutate(exp_2_before_debrief=!exp_2_after_debrief)%>%filter(!lowq))); summary(h89.corr.adj.fpr);
+                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat%>%filter(!lowq))); summary(h89.corr.adj.fpr);
 (h89.corr.adj.hq.wt.fpr <- lm(exp_2_pct_false_fake ~ post_dig_lit + exp_2_prompt_accuracy + exp_2_before_debrief + exp_1_prompt_info + polknow + internet_usage +
-                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat%>%mutate(exp_2_before_debrief=!exp_2_after_debrief)%>%filter(!lowq), weights=weight)); summary(h89.corr.adj.fpr);
+                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat%>%filter(!lowq), weights=weight)); summary(h89.corr.adj.fpr);
 
 h89.fpr.df <- bind_rows(
     tidy(h8.m.fpr),
@@ -2363,7 +2358,7 @@ stargazer(h8.m.fpr,
           notes.align = "l",
           title="\\textbf{Predictors of Detection Task False Positive Rate (FPR)}",
           omit = c("response_wave_ID"), 
-          dep.var.labels = c("\\normallinewidth Detection FPR (\\% Real Videos Classified as Deepfakes)"),
+          dep.var.labels = c("\\normalsize Detection FPR (\\% Real Videos Classified as Deepfakes)"),
           omit.stat=c("f", "ser"),
           order = var_order,
           covariate.labels = c(
@@ -2387,7 +2382,7 @@ stargazer(h8.m.fpr,
           add.lines = list(c("Weighted?", "", "", "", "\\checkmark", "","\\checkmark"),
                            c("Low-Quality Dropped?", "", "", "", "","\\checkmark","\\checkmark")),
           column.sep.width = "1pt",
-          font.linewidth = "footnotelinewidth",
+          font.size = "footnotesize",
           style = "apsr",
           label="secondstage_fpr",
           out="tables/secondstage_fpr.tex")
@@ -2396,13 +2391,13 @@ stargazer(h8.m.fpr,
 (h8.m.fnr <- lm(exp_2_pct_false_real ~ exp_2_prompt_accuracy, dat, weights=weight)); summary(h8.m.fnr); 
 (h9.m.fnr <- lm(exp_2_pct_false_real ~ post_dig_lit, dat)); summary(h9.m.fnr); 
 (h89.corr.adj.fnr <- lm(exp_2_pct_false_real ~ post_dig_lit + exp_2_prompt_accuracy + exp_2_before_debrief + exp_1_prompt_info + polknow + internet_usage +
-                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat%>%mutate(exp_2_before_debrief=!exp_2_after_debrief))); summary(h89.corr.adj.fnr);
+                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat)); summary(h89.corr.adj.fnr);
 (h89.corr.adj.wt.fnr <- lm(exp_2_pct_false_real ~ post_dig_lit + exp_2_prompt_accuracy + exp_2_before_debrief + exp_1_prompt_info + polknow + internet_usage +
-                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat%>%mutate(exp_2_before_debrief=!exp_2_after_debrief), weights=weight)); summary(h89.corr.adj.fnr);
+                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat, weights=weight)); summary(h89.corr.adj.fnr);
 (h89.corr.adj.hq.fnr <- lm(exp_2_pct_false_real ~ post_dig_lit + exp_2_prompt_accuracy + exp_2_before_debrief + exp_1_prompt_info + polknow + internet_usage +
-                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat%>%mutate(exp_2_before_debrief=!exp_2_after_debrief)%>%filter(!lowq))); summary(h89.corr.adj.fnr);
+                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat%>%filter(!lowq))); summary(h89.corr.adj.fnr);
 (h89.corr.adj.hq.wt.fnr <- lm(exp_2_pct_false_real ~ post_dig_lit + exp_2_prompt_accuracy + exp_2_before_debrief + exp_1_prompt_info + polknow + internet_usage +
-                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat%>%mutate(exp_2_before_debrief=!exp_2_after_debrief)%>%filter(!lowq), weights=weight)); summary(h89.corr.adj.fnr);
+                              exp_2 + age_65 + educ + I(PID=="Republican")*crt + ambivalent_sexism, dat%>%filter(!lowq), weights=weight)); summary(h89.corr.adj.fnr);
 
 h89.fnr.df <- bind_rows(
     tidy(h8.m.fnr),
@@ -2431,7 +2426,7 @@ stargazer(h8.m.fnr,
           notes.align = "l",
           title="\\textbf{Predictors of Detection Task False Negative Rate (FNR)}",
           omit = c("response_wave_ID"), 
-          dep.var.labels = c("\\normallinewidth Detection FNR (\\% Deepfakes Classified as Real Videos)"),
+          dep.var.labels = c("\\normalsize Detection FNR (\\% Deepfakes Classified as Real Videos)"),
           omit.stat=c("f", "ser"),
           order = var_order,
           covariate.labels = c(
@@ -2455,7 +2450,7 @@ stargazer(h8.m.fnr,
           add.lines = list(c("Weighted?", "", "", "", "\\checkmark", "","\\checkmark"),
                            c("Low-Quality Dropped?", "", "", "", "","\\checkmark","\\checkmark")),
           column.sep.width = "1pt",
-          font.linewidth = "footnotelinewidth",
+          font.size = "footnotesize",
           style = "apsr",
           label="secondstage_fnr",
           out="tables/secondstage_fnr.tex")
@@ -2499,17 +2494,17 @@ dat %>%
     facet_grid(.~ metric, scales="free_x", space="free_x") +
     geom_bar(stat="identity") + 
     scale_y_continuous(labels = scales::percent_format(accuracy = 1)) + 
-    geom_errorbar(position=position_dodge(.9), width=.2, linewidth=1) + 
+    geom_errorbar(position=position_dodge(.9), width=.2, size=1) + 
     ylab("rate") + xlab("detection environment") +
     ggtitle(paste0("n=",n," | n_no=",n.no," | n_lo=",n.lo," | no_hi=",n.hi)) +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=12),
-            axis.text.y = element_text(linewidth=12),
-            strip.text = element_text(linewidth=18),
-            axis.title.x = element_text(linewidth=16),
-            axis.title.y = element_text(linewidth=16)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=12),
+            axis.text.y = element_text(size=12),
+            strip.text = element_text(size=18),
+            axis.title.x = element_text(size=16),
+            axis.title.y = element_text(size=16)
         )
 ggsave("figures/secondstage_detectionbyenv.pdf", width=8, height=3.05)
 if(SHOW_PDFS) system("open figures/secondstage_detectionbyenv.pdf")
@@ -2539,17 +2534,17 @@ dat %>%
     facet_grid(.~ exp_2, scales="free_x", space="free_x") +
     geom_bar(stat="identity") + 
     scale_y_continuous(labels = scales::percent_format(accuracy = 1)) + 
-    geom_errorbar(position=position_dodge(.9), width=.2, linewidth=1) + 
+    geom_errorbar(position=position_dodge(.9), width=.2, size=1) + 
     ggtitle(paste0("n=",n," | n_no=",n.no," | n_lo=",n.lo," | no_hi=",n.hi)) +
     ylab("rate") + xlab("detection metrics") +
     theme_linedraw2 + 
         theme(
-            title = element_text(linewidth=5),
-            axis.text.x = element_text(linewidth=12),
-            axis.text.y = element_text(linewidth=12),
-            strip.text = element_text(linewidth=14),
-            axis.title.x = element_text(linewidth=16),
-            axis.title.y = element_text(linewidth=16)
+            title = element_text(size=5),
+            axis.text.x = element_text(size=12),
+            axis.text.y = element_text(size=12),
+            strip.text = element_text(size=14),
+            axis.title.x = element_text(size=16),
+            axis.title.y = element_text(size=16)
         )
 ggsave("figures/secondstage_detectionbyenv2.pdf", width=6, height=3.05)
 if(SHOW_PDFS) system("open figures/secondstage_detectionbyenv2.pdf")
@@ -2590,12 +2585,12 @@ dat.viz1 %>%
     theme_linedraw2 +
         theme(
             legend.position = "none",
-            axis.text.x = element_text(linewidth=11),
-            axis.text.y = element_text(linewidth=14),
-            strip.text = element_text(linewidth=18),
+            axis.text.x = element_text(size=11),
+            axis.text.y = element_text(size=14),
+            strip.text = element_text(size=18),
             panel.spacing = unit(2, "lines"),
-            axis.title.x = element_text(linewidth=18),
-            axis.title.y = element_text(linewidth=18)
+            axis.title.x = element_text(size=18),
+            axis.title.y = element_text(size=18)
         )
 ggsave("figures/secondstage_treatfx.pdf", width=10, height=4)
 if(SHOW_PDFS) system("open figures/secondstage_treatfx.pdf")
@@ -2648,15 +2643,15 @@ dat.viz2 %>%
     coord_flip() +
     theme_linedraw2 +
         theme(
-            axis.text.x = element_text(linewidth=11),
-            axis.text.y = element_text(linewidth=14),
-            strip.text = element_text(linewidth=18),
+            axis.text.x = element_text(size=11),
+            axis.text.y = element_text(size=14),
+            strip.text = element_text(size=18),
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
             panel.spacing = unit(2, "lines"),
             legend.position = "bottom",
-            axis.title.x = element_text(linewidth=18),
-            axis.title.y = element_text(linewidth=18)
+            axis.title.x = element_text(size=18),
+            axis.title.y = element_text(size=18)
         )
 ggsave("figures/secondstage_treatfx_byenv.pdf", width=11, height=4)
 if(SHOW_PDFS) system("open figures/secondstage_treatfx_byenv.pdf")
@@ -2665,19 +2660,19 @@ if(SHOW_PDFS) system("open figures/secondstage_treatfx_byenv.pdf")
 ##### Cleanup ####
 #####------------------------------------------------------#
 
-suffix <- ""
+## suffix <- ""
 
 # if (ARGS$weight == 1 & "weight" %in% colnames(dat)) {
 #     suffix <- paste0(suffix,"_wt")
 # }
-if (ARGS$response_quality == "low") {
-    suffix <- paste0(suffix,"_lowq")
-}
-if (ARGS$response_quality == "high") {
-    suffix <- paste0(suffix,"_highq")
-}
+## if (ARGS$response_quality == "low") {
+##     suffix <- paste0(suffix,"_lowq")
+## }
+## if (ARGS$response_quality == "high") {
+##     suffix <- paste0(suffix,"_highq")
+## }
 
-if (suffix != "") {
-    system(sprintf("mv tables tables%s", suffix))
-    system(sprintf("mv figures figures%s", suffix))
-}
+## if (suffix != "") {
+##     system(sprintf("mv tables tables%s", suffix))
+##     system(sprintf("mv figures figures%s", suffix))
+## }

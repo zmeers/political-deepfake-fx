@@ -1,0 +1,37 @@
+---
+title: "Replicating *Political Deepfakes* (@barari2025political)"
+author: "Zoe Meers"
+date: today
+date-format: "MMMM D, YYYY"
+format: 
+  pdf:
+    geometry:
+      - top=1in
+      - bottom=1in
+      - left=0.8in
+      - right=0.8in
+execute:
+  echo: true
+  eval: true
+  warning: false
+  message: false
+bibliography: political_deepfakes.bib
+---
+
+This research project replicates @barari2025political on partisan deepfake credibility and detection using a pre-registered randomized control trials (RCT) with $n = 5,724$ participants conducted on survey platform Lucid. In their work, [@barari2025political] find partisan effects on deepfake detection accuracy when their in-party political leader is involved in a political scandal.^[That is, partisans are more likely to think a real video is a deepfake when the scandal refers to someone in their own party. This is also defined as the false positive rate.] @barari2025political develop two sequential experimental designs to test deepfake video exposure and detection accuracy: 
+
+1. In the first exposure experiment, the authors implement a 2x6 factorial design where deepfakes were mixed in with other media messaging (text, audio, or a political skit) involving 2020 Democratic primary candidate Elizabeth Warren. The design and layout of the experiment mimics a Facebook newsfeed, where the incorrect content is surrounded by two (real) pieces of media before and after the deepfake video.
+
+2. In the second experiment, respondents are asked to discrimate betwen authentic and deepfake videos. A list of eight videos, split into three groupings (no deepfakes, low rate of deepfakes (2/8 videos are deepfakes), and high rate of deepfakes (6/8 are deepfakes)), is randomly assigned to participants. 
+
+I plan to replicate the second experiment focusing on deepfake detection.^[My replication files will be available here: https://github.com/zmeers/political-deepfake-fx.] I would like to extend this work by considering the false-positive rate in more depth. I am particularly interested in testing the following hypothesis:
+
+* H1: Political partisans have different false positive rates in the no-deepfake condition, showing divering partisan skepticism about the authenticity of deepfake videos. ^[In other words, strong Republicans or Democrats do not start off on a level-playing field regarding deepfake learning.]
+
+I am also interested in providing further analysis on heterogenous treatment effects. I plan to use a flexibile machine learning method Bayesian Additive Regression Trees (as demonstrated in by [@green2012modeling]) to look beyond fixed subsets in CATEs. This will be a secondary analysis.
+
+
+### References
+
+::: {#refs}
+:::
