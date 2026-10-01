@@ -13,7 +13,6 @@
 # - intermediate/deepfake.RData
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-
 library(tidyverse)
 library(survey)
 library(stargazer)

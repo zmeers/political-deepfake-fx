@@ -2,8 +2,8 @@
 FROM rocker/tidyverse:4.1
 
 RUN apt-get update
-RUN apt-get -y install cmake protobuf-compiler
-RUN R -e "install.packages(c('optparse', 'caret', 'survey', 'stargazer', 'weights', 'latex2exp', 'ggsignif', 'cowplot', 'equivalence', 'lmtest', 'sandwich'), repos = 'http://cran.us.r-project.org')"
+RUN apt-get -y install g++ make libblas-dev liblapack-dev cmake protobuf-compiler
+RUN R -e "install.packages(c('Hmisc', 'globals', 'rbibutils', 'Rdpack', 'reformulas', 'lme4', 'jomo', 'mitml', 'mice','RcppEigen', 'optparse', 'caret', 'survey', 'stargazer', 'weights', 'latex2exp', 'ggsignif', 'cowplot', 'equivalence', 'lmtest', 'sandwich'))"
 
 RUN mkdir /home/archive/
 RUN mkdir /home/archive/figures
